@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex flex-row-reverse">
+        <div class="p-2">
+            <!-- <h2>Create a new workoutplan</h2> -->
+            <a class="btn btn-secondary" href= "{{ url_for('create') }}">Create Workoutplan</a>
+        </div>
+        <div class="p-2"></div>
+        
+    </div>
+
+        <!-- <h1>My Workout plans</h1>
+        {% for item in workoutplan %}
+            <div class="row">
+                <div class="col-md-8 border">{{ item.name }}</div> 
+                <div class="col-md-4 border"><a href="{{ url_for('wp_page', id=item.id) }}"> Open Workout</a></div>  
+            </div>
+        {% endfor %} -->
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container-fluid">
+	<div class="row">
+
+		<section class="content">
+			<h1>My Workouts</h1>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="pull-right">
+							<div class="btn-group">
+								<button type="button" class="btn btn-success btn-filter" data-target="not-started">Not Started</button>
+								<button type="button" class="btn btn-warning btn-filter" data-target="in-progress">In Progress</button>
+								<button type="button" class="btn btn-danger btn-filter" data-target="finished">Finished</button>
+								<button type="button" class="btn btn-default btn-filter" data-target="all">All</button>
+							</div>
+						</div>
+						<div class="table-container">
+							<table class="table table-filter">
+								<tbody>
+                                    {% for item in workoutplan %}
+                                        {% if item.status_id == 1 %}
+                                            <tr data-status="not-started">
+                                                <td>
+                                                    <div class="ckbox">
+                                                        <input type="checkbox" id="checkbox1">
+                                                        <label for="checkbox1"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="star">
+                                                        <i class="glyphicon glyphicon-star"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div class="media">
+                                                        <a href="#" class="pull-left">
+                                                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <span class="media-meta pull-right">Febrero 13, 2016</span>
+                                                            <h4 class="title">
+                                                                <a  href="{{ url_for('wp_page', id=item.id) }}">{{ item.name }}</a>
+                                                                
+                                                                <span class="pull-right not-started">(not-started)</span>
+                                                            </h4>
+                                                            <p class="summary">{{ item.description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+
+                                        {% if item.status_id == 2 %}
+                                            <tr data-status="in-progress">
+                                                <td>
+                                                    <div class="ckbox">
+                                                        <input type="checkbox" id="checkbox3">
+                                                        <label for="checkbox3"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="star">
+                                                        <i class="glyphicon glyphicon-star"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div class="media">
+                                                        <a href="#" class="pull-left">
+                                                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <span class="media-meta pull-right">Febrero 13, 2016</span>
+                                                            <h4 class="title">
+                                                                <a  href="{{ url_for('wp_page', id=item.id) }}">{{ item.name }}</a>
+                                                                <span class="pull-right in-progress">(in-progress)</span>
+                                                            </h4>
+                                                            <p class="summary">{{ item.description }}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+
+                                        {% if item.status_id == 3 %}
+                                            <tr data-status="finished">
+                                                <td>
+                                                    <div class="ckbox">
+                                                        <input type="checkbox" id="checkbox2">
+                                                        <label for="checkbox2"></label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:;" class="star">
+                                                        <i class="glyphicon glyphicon-star"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div class="media">
+                                                        <a href="#" class="pull-left">
+                                                            <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <span class="media-meta pull-right">Febrero 13, 2016</span>
+                                                            <h4 class="title">
+                                                                <a  href="{{ url_for('wp_page', id=item.id) }}">{{ item.name }}</a>
+                                                                <span class="pull-right finished">(Finished)</span>
+                                                            </h4>
+                                                            <p class="summary">{{item.description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+									<!-- <tr data-status="not-started">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox1">
+												<label for="checkbox1"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right not-started">(not-started)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="pendiente">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox3">
+												<label for="checkbox3"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right pendiente">(Pendiente)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="cancelado">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox2">
+												<label for="checkbox2"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right cancelado">(Cancelado)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="not-started" class="selected">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox4" checked>
+												<label for="checkbox4"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star star-checked">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right not-started">(not-started)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr data-status="in-progress">
+										<td>
+											<div class="ckbox">
+												<input type="checkbox" id="checkbox5">
+												<label for="checkbox5"></label>
+											</div>
+										</td>
+										<td>
+											<a href="javascript:;" class="star">
+												<i class="glyphicon glyphicon-star"></i>
+											</a>
+										</td>
+										<td>
+											<div class="media">
+												<a href="#" class="pull-left">
+													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+												</a>
+												<div class="media-body">
+													<span class="media-meta pull-right">Febrero 13, 2016</span>
+													<h4 class="title">
+														Lorem Impsum
+														<span class="pull-right in-progress">(in-progress)</span>
+													</h4>
+													<p class="summary">Ut enim ad minim veniam, quis nostrud exercitation...</p>
+												</div>
+											</div>
+										</td>
+									</tr> -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container ">
+    <h1>{{ workoutplan.name }}</h1>
+    <div class="row justify-content-between mt-4" style="height: 300px">
+        <div class=" col-3 border border-secondary rounded h-auto">
+            <h4 class="border-bottom border-secondary">Description</h4>
+            {{ workoutplan.description }}
+        </div>
+    
+        <div class=" col-4 border border-secondary rounded h-auto">
+            <h4 class="border-bottom border-secondary">Exercises</h4>
+            <div class="container border border-secondary h-75 w-100">
+                    <div class="position-relative mt-2">
+                        
+                        <ul>
+                            {% for workout_exercise, exercise in exercises_plan %}
+                            <li>{{ exercise.name }}</li>
+                            {% endfor %}
+                        </ul>
+                 
+                       
+                        <!-- Add Exercise Button -->
+                        <button class="btn btn-primary position-absolute bottom-right" data-bs-toggle="modal" data-bs-target="#addExerciseModal">Add Exercise</button>
+                        
+
+                           <!-- Add Exercise Modal -->
+                        <div class="modal fade border" id="addExerciseModal" tabindex="-1" aria-labelledby="addExerciseModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title " id="addExerciseModalLabel">Add Exercise</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="exerciseForm">
+                                            <div class="mb-3">
+                                                <label for="exerciseSelect" class="form-label">Select Existing Exercise</label>
+                                                <select id="exerciseSelect" class="form-select">
+                                                    <option value="">-- Select an Exercise --</option>
+                                                    {% for exercise in exercises %}
+                                                        <option value="{{ exercise.id }}">{{ exercise.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="newExerciseName" class="form-label">Or Create New Exercise</label>
+                                                <input type="text" id="newExerciseName" class="form-control" placeholder="Exercise Name">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                 
+                
+            </div>
+        </div>
+    
+        <div class="col-2">
+            <div class="mb-3">
+                <a class="btn btn-secondary" href= "{{ url_for('wp_edit', id=workoutplan.id) }}">Edit plan</a>
+            </div>
+            <form action="{{ url_for('wp_delete', id=workoutplan.id) }}" method="POST">
+            <button class="btn btn-secondary" type="submit" onclick="confirmDelete(event, '{{ workoutplan.name }}')">Delete plan</button>    
+        </div>
+    </div> 
+</div>
+
+<script>
+    document.getElementById('exerciseForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const exerciseId = document.getElementById('exerciseSelect').value;
+            const newExerciseName = document.getElementById('newExerciseName').value;
+
+            fetch(`/workoutplan/{{ workoutplan.id }}/add_exercise`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ exercise_id: exerciseId, new_exercise: newExerciseName }),
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+        });
+</script>
+
+{% endblock %}
